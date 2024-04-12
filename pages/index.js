@@ -12,9 +12,9 @@ export default function Home() {
   )
 }
   return (
-    <div className="text-black bg-blue-900  flex justify-between">
+    <div className="bg-blue-900 min-h-screen flex">
     <Nav />
-        Hello User {session.user.email}
+        <div className="bg-white flex-grow mt-2 mr-2 rounded-lg p-4 mb-0">Hello User {session.user.email}</div>
     </div>
     )
 }
