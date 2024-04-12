@@ -1,15 +1,15 @@
-import { Schema } from "mongoose";
+import {model, models, Schema } from "mongoose";
 
 const ProductSchema = new Schema({
     title : {
-        type : string,
-        required : true
+        type : String,
+        required : true,
     },  
-    description : string,
+    description : String,
     price : {
-        type :string,
+        type :Number,
         required : true
     }
 })
 
-export const Product = model('Product', ProductSchema)
+export const Product = models.Product || model('Product', ProductSchema);
