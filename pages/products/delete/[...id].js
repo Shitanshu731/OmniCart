@@ -19,10 +19,14 @@ export default function DeleteProduct(){
   function goBack(){
     router.push("/products");
   }
+  async function deleteProduct(){
+    await axios.delete('/api/products?id='+id);
+    goBack();
+  }
   return (
     <Layout>
         <h1>Do you really want to Delete {productDetails?.title}</h1>
-        <button>
+        <button onClick={() => deleteProduct()}>
             Yes
         </button>
         <button onClick={() => goBack()}>

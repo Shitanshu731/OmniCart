@@ -20,7 +20,13 @@ export default async function handle(req,res){
             description,
             price
         })
-        res.json(productDoc);
+        res.json({success : true,message : "Product Updated"})
+    }
+    if(method === 'DELETE'){
+       if(req.query.id){
+        await Product.deleteOne({_id:req.query.id})
+        res.json({success : true,message : "Product Deleted"})
+       }
     }
     if(method === 'GET'){
         if(req?.query?.id){
