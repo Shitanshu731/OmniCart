@@ -16,14 +16,16 @@ export default function DeleteProduct(){
       .get('/api/products?id='+id)
       .then((res) => setProductDetails(res.data));
   }, [id]);
-  
+  function goBack(){
+    router.push("/products");
+  }
   return (
     <Layout>
         <h1>Do you really want to Delete {productDetails?.title}</h1>
         <button>
             Yes
         </button>
-        <button>
+        <button onClick={() => goBack()}>
             No
         </button>
     </Layout>
