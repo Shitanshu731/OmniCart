@@ -30,13 +30,22 @@ export default function ProductForm({
     }
     if(goBack) router.push('/products');
 
-    function uploadImages(e){
-        const files = e.target?.files;
-        if(files?.length > 0){
-            const data = new FormData();
-            files.forEach(file => data.append('file',file));
+    async function uploadImages(ev) {
+        const files = ev.target?.files;
+        if (files?.length > 0) {
+        //   setIsUploading(true);
+          const data = new FormData();
+          for (const file of files) {
+            data.append('file', file);
+          }
+          const res = await axios.post('/api/upload', data);
+          console.log(res.data)
+        //   setImages(oldImages => {
+        //     return [...oldImages, ...res.data.links];
+        //   });
+        //   setIsUploading(false);
         }
-    }
+      }
     return (
         <form onSubmit={createProduct}>
         <label>Product Name</label>
