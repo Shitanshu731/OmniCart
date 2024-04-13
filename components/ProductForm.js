@@ -29,6 +29,14 @@ export default function ProductForm({
         
     }
     if(goBack) router.push('/products');
+
+    function uploadImages(e){
+        const files = e.target?.files;
+        if(files?.length > 0){
+            const data = new FormData();
+            files.forEach(file => data.append('file',file));
+        }
+    }
     return (
         <form onSubmit={createProduct}>
         <label>Product Name</label>
@@ -42,7 +50,7 @@ export default function ProductForm({
           <div>
             Upload
           </div>
-          <input type="file" className="hidden" />
+          <input onChange={uploadImages} type="file" className="hidden" />
             </label>
             {true && (
                 <div>No photos uploaded</div>
