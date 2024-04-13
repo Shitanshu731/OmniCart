@@ -1,23 +1,28 @@
 import Nav from "@/components/Nav"
-import {useSession, signIn, signOut} from "next-auth/react"
+import { ClerkLoaded, ClerkLoading, SignInButton, SignOutButton,  SignedIn, SignedOut  } from "@clerk/nextjs"
+
 export default function Layout({children}) {
-  const {data : session} = useSession();
-  if(!session){
   return (
-   <div className="bg-blue-900 w-screen h-screen flex items-center">
+    <div>
+    <ClerkLoading>
+      Loading ...
+    </ClerkLoading>
+    <ClerkLoaded>
+    <SignedOut>
+    <div className="bg-blue-900 w-screen h-screen flex items-center">
     <div className="text-center w-full">
-      <button className="bg-white p-4 px-6 rounded-lg" onClick={()=> signIn('google')}>Login with Google</button>
+     <SignInButton afterSignInUrl="/" afterSignUpUrl="/">Sign In </SignInButton>
     </div>
-   </div>
-  )
-}
-  return (
     
+   </div>
+   </SignedOut>
+   <SignedIn>
     <div className="bg-blue-900 min-h-screen flex">
     <Nav />
         <div className="bg-white flex-grow mt-2 mr-2 rounded-lg p-4 mb-0">{children}</div>
-        
     </div>
-    
+    </SignedIn>
+    </ClerkLoaded>
+    </div>
     )
 }
