@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 export default function EditProductPage(){
     const router = useRouter();
     const [productDetails,setProductDetails] = useState(null);
-    console.log({router});
     const {id} = router.query;
     useEffect(() => {
         if(!id) return
