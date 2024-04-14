@@ -6,23 +6,25 @@ export default function ProductForm({
     _id,
     title : existingTitle,
     description : existingDescription,
-    price : existingPrice
+    price : existingPrice,
+    images : existingimage
 }) {
     const router = useRouter();
     const [title,setTitle]  = useState(existingTitle || '');
     const [price,setPrice]  = useState(existingPrice || '');
+    const [images,setImages]  = useState(existingimage || []);
     const [description,setDescription]  = useState(existingDescription || '');
     const [goBack,setGoBack]  = useState(false);
     async function createProduct(e){
         e.preventDefault();
         if(_id) {
             //Update Product
-            const data = {price,description,title};
+            const data = {price,description,title,images};
             await axios.put('/api/products',{...data,_id})
         }
         else{
             //Create Product
-        const data = {price,description,title};
+        const data = {price,description,title,images};
         await axios.post('/api/products',data);
         }
         setGoBack(true);
@@ -30,38 +32,56 @@ export default function ProductForm({
     }
     if(goBack) router.push('/products');
 
-    async function uploadImages(ev) {
-        const files = ev.target?.files;
-        if (files?.length > 0) {
-        //   setIsUploading(true);
-          const data = new FormData();
-          for (const file of files) {
-            data.append('file', file);
-          }
-          const res = await axios.post('/api/upload', data);
-          console.log(res.data)
-        //   setImages(oldImages => {
-        //     return [...oldImages, ...res.data.links];
-        //   });
-        //   setIsUploading(false);
-        }
-      }
+    const uploadImages = async (event) => {
+  const file = event.target.files[0];
+  const formData = new FormData();
+  formData.append('file', file);
+  console.log(file);
+  formData.append('upload_preset', 'fcf5hbvr');
+
+  try {
+    const response = await fetch(`https://api.cloudinary.com/v1_1/dylarapud/image/upload`, {
+      method: 'POST',
+      body: formData,
+    });
+    if (!response.ok) {
+      throw new Error('Failed to upload image');
+    }
+    const data = await response.json();
+    const imageUrl = data.secure_url; // Updated to use secure_url from Cloudinary response
+    setImages([...images, imageUrl]);
+    console.log('Image URL sent to server successfully.',imageUrl);
+  } catch (error) {
+    console.error('Error uploading image:', error);
+  }
+};
+
+    
+    
     return (
         <form onSubmit={createProduct}>
         <label>Product Name</label>
            <input value={title} onChange={e => setTitle(e.target.value)} type="text" placeholder="product name"/>
            <label >Photos</label>
+           <div className="flex gap-3">
+           {!!images?.length > 0 && images.map((imageLink) => (
+            <div key={imageLink} >
+              <img className="w-28 h-24" src ={imageLink} />
+            </div>
+           ))}
            <div>
-            <label className="w-24 h-24 text-center curso flex items-center justify-center text-sm gap-1 rounded-lg bg-gray-200">
+            <label className="w-24 h-24 text-center curso flex items-center justify-center text-sm gap-1 rounded-lg bg-gray-200"> 
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
             <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 7.5h-.75A2.25 2.25 0 0 0 4.5 9.75v7.5a2.25 2.25 0 0 0 2.25 2.25h7.5a2.25 2.25 0 0 0 2.25-2.25v-7.5a2.25 2.25 0 0 0-2.25-2.25h-.75m0-3-3-3m0 0-3 3m3-3v11.25m6-2.25h.75a2.25 2.25 0 0 1 2.25 2.25v7.5a2.25 2.25 0 0 1-2.25 2.25h-7.5a2.25 2.25 0 0 1-2.25-2.25v-.75" />
           </svg>
+      
           <div>
             Upload
           </div>
           <input onChange={uploadImages} type="file" className="hidden" />
             </label>
-            {true && (
+            </div>
+            {!images && (
                 <div>No photos uploaded</div>
             )}
            </div>
