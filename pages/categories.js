@@ -6,11 +6,17 @@ export default function Categories() {
   const [name, setName] = useState("");
   const [categories, setCategories] = useState([]);
   const [parentCategory, setParentCategory] = useState("");
+  const [editedCategory, setEditedCategory] = useState("");
   useEffect(() => {
     getCategories();
   }, []);
   function getCategories() {
     axios.get("/api/categories").then((res) => setCategories(res.data));
+  }
+  function editCategory(category){
+        setEditedCategory(category);
+        setName(category.name);
+        setParentCategory(category.parent?._id);
   }
   async function saveCategory(e) {
     e.preventDefault();
@@ -21,7 +27,7 @@ export default function Categories() {
   return (
     <Layout>
       <h1>Categories</h1>
-      <label>New Category Name</label>
+      <label>{editCategory ? `Edit Category ${editedCategory.name}` : "New Category"}</label>
       <form onSubmit={saveCategory}>
         <input
           type="text"
@@ -61,7 +67,7 @@ export default function Categories() {
               <tr key={category._id}>
                 <td>{category.name}</td>
                 <td>{category.parent?.name}</td>
-                <td><button className="btn-primary">Edit</button></td>
+                <td><button className="btn-primary" onClick={() => editCategory(category)}>Edit</button></td>
                 <td><button className="btn-primary">Delete</button></td>
               </tr>
             ))}
