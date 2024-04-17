@@ -23,6 +23,7 @@ export default function Categories() {
     const data = { name, parentCategory };
     if (editedCategory) {
       await axios.put("/api/categories", {...data, _id : editedCategory._id} );
+      setEditedCategory(null);
     } else {
       await axios.post("/api/categories", data);
     }
