@@ -3,7 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { withSwal } from "react-sweetalert2";
 
-  function Categories() {
+  function Categories({swal}) {
   const [name, setName] = useState("");
   const [categories, setCategories] = useState([]);
   const [parentCategory, setParentCategory] = useState("");
@@ -18,6 +18,23 @@ import { withSwal } from "react-sweetalert2";
     setEditedCategory(category);
     setName(category.name);
     setParentCategory(category.parent?._id);
+  }
+  function deleteCategory(category){
+    swal.fire({
+        title : 'Example',
+        text : 'Hello World',
+        didOpen : () => {
+
+        },
+        didClose : () => {
+
+        }
+
+    }).then(result => {
+
+    }).catch(err => {
+        
+    })
   }
   async function saveCategory(e) {
     e.preventDefault();
@@ -85,7 +102,7 @@ import { withSwal } from "react-sweetalert2";
                   </button>
                 </td>
                 <td>
-                  <button className="btn-primary">Delete</button>
+                  <button className="btn-primary" onClick={() => deleteCategory(category)}>Delete</button>
                 </td>
               </tr>
             ))}
@@ -95,5 +112,5 @@ import { withSwal } from "react-sweetalert2";
   );
 }
 export default withSwal(({swal}, ref) => (
-    <Categories />
+    <Categories swal={swal} />
 ))
