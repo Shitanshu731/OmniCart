@@ -1,6 +1,11 @@
 import Layout from "@/components/Layout";
+import { useState } from "react";
 
 export default function Categories(){
+    const [name,setName] = useState();
+    function saveCategory(){
+        await axios.post('/api/categories' , {name})
+    }
     return(
         <Layout>
             <h1>
@@ -9,8 +14,8 @@ export default function Categories(){
             <label>
                New Category Name
             </label>
-            <form>
-                <input type="text"  placeholder = "Category Name" />
+            <form onSubmit={saveCategory}>
+                <input type="text"  placeholder = "Category Name" valu={name} onChange={e => setName(e.target.value)} />
                 <button type="submit" className="btn-primary py-1">Save</button>
             </form>
         </Layout>
