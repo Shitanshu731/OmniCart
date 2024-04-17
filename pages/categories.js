@@ -1,8 +1,9 @@
 import Layout from "@/components/Layout";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { withSwal } from "react-sweetalert2";
 
-export default function Categories() {
+  function Categories() {
   const [name, setName] = useState("");
   const [categories, setCategories] = useState([]);
   const [parentCategory, setParentCategory] = useState("");
@@ -93,3 +94,6 @@ export default function Categories() {
     </Layout>
   );
 }
+export default withSwal(({swal}, ref) => (
+    <Categories />
+))
