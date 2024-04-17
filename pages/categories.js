@@ -47,7 +47,7 @@ export default function Categories() {
         </button>
       </form>
 
-      <table>
+      <table className = "basic">
         <thead>
           <tr>
             <td>Category Name</td>
@@ -59,7 +59,7 @@ export default function Categories() {
             categories.map((category) => (
               <tr key={category._id}>
                 <td>{category.name}</td>
-                <td>{category.parent}</td>
+                <td>{category.parent?.name}</td>
               </tr>
             ))}
         </tbody>

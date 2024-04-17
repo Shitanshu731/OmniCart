@@ -5,7 +5,7 @@ export default async function handle(req,res){
     const {method} = req;
     await mongooseConnect();
     if(method === "GET"){
-        const allcategories = await Category.find();
+        const allcategories = await Category.find().populate('parent');
         res.json(allcategories);
     }
 
