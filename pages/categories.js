@@ -20,8 +20,15 @@ export default function Categories() {
   }
   async function saveCategory(e) {
     e.preventDefault();
-    await axios.post("/api/categories", { name,parentCategory });
-    setName("");
+    if(editCategory){
+        const data = {name, parentCategory}
+        await axios.put('/api/categories', data)
+    }
+    else{
+        await axios.post("/api/categories", { name,parentCategory });
+        setName("");
+
+    }
     getCategories();
   }
   return (
