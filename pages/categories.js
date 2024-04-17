@@ -3,7 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { withSwal } from "react-sweetalert2";
 
-  function Categories({swal}) {
+function Categories({ swal }) {
   const [name, setName] = useState("");
   const [categories, setCategories] = useState([]);
   const [parentCategory, setParentCategory] = useState("");
@@ -19,28 +19,29 @@ import { withSwal } from "react-sweetalert2";
     setName(category.name);
     setParentCategory(category.parent?._id);
   }
-  function deleteCategory(category){
-    swal.fire({
-        title : 'Example',
-        text : 'Hello World',
-        didOpen : () => {
-
-        },
-        didClose : () => {
-
+  function deleteCategory(category) {
+    swal
+      .fire({
+        title: "Are you sure",
+        text: `Do you want to delete ${category.name}`,
+        showCancelButton: true,
+        cancelButtonText: "Cancel",
+        confirmButtonText: "Yes, Delete!",
+      })
+      .then(async result => {
+        if(result.isConfirmed){
+            const {_id} = req.query;
+            await axios.delete('/api/categories?_id='+_id);
+            getCategories();
         }
-
-    }).then(result => {
-
-    }).catch(err => {
-        
-    })
+      })
+      .catch((err) => {});
   }
   async function saveCategory(e) {
     e.preventDefault();
     const data = { name, parentCategory };
     if (editedCategory) {
-      await axios.put("/api/categories", {...data, _id : editedCategory._id} );
+      await axios.put("/api/categories", { ...data, _id: editedCategory._id });
       setEditedCategory(null);
     } else {
       await axios.post("/api/categories", data);
@@ -52,7 +53,9 @@ import { withSwal } from "react-sweetalert2";
     <Layout>
       <h1>Categories</h1>
       <label>
-        {editedCategory ? `Edit Category ${editedCategory.name}` : `New Category`}
+        {editedCategory
+          ? `Edit Category ${editedCategory.name}`
+          : `New Category`}
       </label>
       <form onSubmit={saveCategory}>
         <input
@@ -102,7 +105,12 @@ import { withSwal } from "react-sweetalert2";
                   </button>
                 </td>
                 <td>
-                  <button className="btn-primary" onClick={() => deleteCategory(category)}>Delete</button>
+                  <button
+                    className="btn-primary"
+                    onClick={() => deleteCategory(category)}
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
@@ -111,6 +119,4 @@ import { withSwal } from "react-sweetalert2";
     </Layout>
   );
 }
-export default withSwal(({swal}, ref) => (
-    <Categories swal={swal} />
-))
+export default withSwal(({ swal }, ref) => <Categories swal={swal} />);
