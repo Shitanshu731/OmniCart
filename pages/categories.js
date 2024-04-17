@@ -3,7 +3,7 @@ import { useState } from "react";
 
 export default function Categories(){
     const [name,setName] = useState();
-    function saveCategory(){
+    async function saveCategory(){
         await axios.post('/api/categories' , {name})
     }
     return(
