@@ -6,35 +6,35 @@ export default function Categories() {
   const [name, setName] = useState("");
   const [categories, setCategories] = useState([]);
   const [parentCategory, setParentCategory] = useState("");
-  const [editedCategory, setEditedCategory] = useState("");
+  const [editedCategory, setEditedCategory] = useState(null);
   useEffect(() => {
     getCategories();
   }, []);
   function getCategories() {
     axios.get("/api/categories").then((res) => setCategories(res.data));
   }
-  function editCategory(category){
-        setEditedCategory(category);
-        setName(category.name);
-        setParentCategory(category.parent?._id);
+  function editCategory(category) {
+    setEditedCategory(category);
+    setName(category.name);
+    setParentCategory(category.parent?._id);
   }
   async function saveCategory(e) {
     e.preventDefault();
-    if(editCategory){
-        const data = {name, parentCategory}
-        await axios.put('/api/categories', data)
+    const data = { name, parentCategory };
+    if (editedCategory) {
+      await axios.put("/api/categories", data);
+    } else {
+      await axios.post("/api/categories", data);
     }
-    else{
-        await axios.post("/api/categories", { name,parentCategory });
-        setName("");
-
-    }
+    setName("");
     getCategories();
   }
   return (
     <Layout>
       <h1>Categories</h1>
-      <label>{editCategory ? `Edit Category ${editedCategory.name}` : "New Category"}</label>
+      <label>
+        {editedCategory ? `Edit Category ${editedCategory.name}` : `New Category`}
+      </label>
       <form onSubmit={saveCategory}>
         <input
           type="text"
@@ -43,24 +43,24 @@ export default function Categories() {
           onChange={(e) => setName(e.target.value)}
         />
         <select
-        value={parentCategory}
-        onChange={(e) => setParentCategory(e.target.value)}
-        placeholder="ASdasd"
-      >
-        <option value="">Parent Categories</option>
-        {categories?.length > 0 &&
-          categories.map((category) => (
-            <option key={category._id} value={category._id}>
-              {category.name}
-            </option>
-          ))}
-      </select>
+          value={parentCategory}
+          onChange={(e) => setParentCategory(e.target.value)}
+          placeholder="ASdasd"
+        >
+          <option value="">Parent Categories</option>
+          {categories?.length > 0 &&
+            categories.map((category) => (
+              <option key={category._id} value={category._id}>
+                {category.name}
+              </option>
+            ))}
+        </select>
         <button type="submit" className="btn-primary py-1">
           Save
         </button>
       </form>
 
-      <table className = "basic">
+      <table className="basic">
         <thead>
           <tr>
             <td>Category Name</td>
@@ -74,8 +74,17 @@ export default function Categories() {
               <tr key={category._id}>
                 <td>{category.name}</td>
                 <td>{category.parent?.name}</td>
-                <td><button className="btn-primary" onClick={() => editCategory(category)}>Edit</button></td>
-                <td><button className="btn-primary">Delete</button></td>
+                <td>
+                  <button
+                    className="btn-primary"
+                    onClick={() => editCategory(category)}
+                  >
+                    Edit
+                  </button>
+                </td>
+                <td>
+                  <button className="btn-primary">Delete</button>
+                </td>
               </tr>
             ))}
         </tbody>
