@@ -8,6 +8,7 @@ function Categories({ swal }) {
   const [categories, setCategories] = useState([]);
   const [parentCategory, setParentCategory] = useState("");
   const [editedCategory, setEditedCategory] = useState(null);
+  const [properties, setProperties] = useState();
   useEffect(() => {
     getCategories();
   }, []);
@@ -49,6 +50,11 @@ function Categories({ swal }) {
     setName("");
     getCategories();
   }
+  function addProperty(){
+      setProperties(prev => {
+        return [...prev, {name : '',values : ''}];
+      })
+  }
   return (
     <Layout>
       <h1>Categories</h1>
@@ -79,7 +85,13 @@ function Categories({ swal }) {
         </select>
         <div>
         <label>Properties</label>
-           <button className="btn-default" type="button">Add new property</button>
+           <button className="btn-default" type="button" onClick={addProperty}>Add new property</button>
+           {properties?.length > 0 && properties.map(property => (
+            <div className="flex gap-1" key={property.value}>
+              <input type="text" placeholder="property name (example : color) "/>
+              <input type="text" placeholder="values, comma seperated"/>
+            </div>
+           ))}
            </div>
         <button type="submit" className="btn-primary py-1">
           Save
