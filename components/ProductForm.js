@@ -62,6 +62,10 @@ export default function ProductForm({
         <form onSubmit={createProduct}>
         <label>Product Name</label>
            <input value={title} onChange={e => setTitle(e.target.value)} type="text" placeholder="product name"/>
+        <label>Categories</label>
+           <select>
+            <option value="">Set Category</option>
+           </select>
            <label >Photos</label>
            <div className="flex gap-3">
            {!!images?.length > 0 && images.map((imageLink) => (

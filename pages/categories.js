@@ -30,12 +30,12 @@ function Categories({ swal }) {
       })
       .then(async result => {
         if(result.isConfirmed){
-            const {_id} = req.query;
+            const {_id} = category;
             await axios.delete('/api/categories?_id='+_id);
             getCategories();
         }
-      })
-      .catch((err) => {});
+        
+      });
   }
   async function saveCategory(e) {
     e.preventDefault();
@@ -69,7 +69,7 @@ function Categories({ swal }) {
           onChange={(e) => setParentCategory(e.target.value)}
           placeholder="ASdasd"
         >
-          <option value="">Parent Categories</option>
+          <option value="asdasd">Parent Categories</option>
           {categories?.length > 0 &&
             categories.map((category) => (
               <option key={category._id} value={category._id}>
