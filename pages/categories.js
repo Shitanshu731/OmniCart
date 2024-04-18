@@ -8,7 +8,7 @@ function Categories({ swal }) {
   const [categories, setCategories] = useState([]);
   const [parentCategory, setParentCategory] = useState("");
   const [editedCategory, setEditedCategory] = useState(null);
-  const [properties, setProperties] = useState();
+  const [properties, setProperties] = useState([]);
   useEffect(() => {
     getCategories();
   }, []);
@@ -53,7 +53,7 @@ function Categories({ swal }) {
   function addProperty(){
       setProperties(prev => {
         return [...prev, {name : '',values : ''}];
-      })
+      });
   }
   return (
     <Layout>
