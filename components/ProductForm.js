@@ -7,17 +7,20 @@ export default function ProductForm({
     title : existingTitle,
     description : existingDescription,
     price : existingPrice,
-    images : existingimage
+    images : existingimage,
+    category : existingCategory,
 }) {
     const router = useRouter();
     const [title,setTitle]  = useState(existingTitle || '');
     const [price,setPrice]  = useState(existingPrice || '');
     const [images,setImages]  = useState(existingimage || []);
+    const [categories,setCategories]  = useState([]);
+    const [category,setCategory]  = useState(existingCategory || '');
     const [description,setDescription]  = useState(existingDescription || '');
     const [goBack,setGoBack]  = useState(false);
     useEffect(() => {
       async function getCategories(){
-        await axios.get("/api/categories").then(res => console.log(res.data));
+        await axios.get("/api/categories").then(res => setCategories(res.data));
       }
       getCategories();
     },[])
@@ -25,12 +28,12 @@ export default function ProductForm({
         e.preventDefault();
         if(_id) {
             //Update Product
-            const data = {price,description,title,images};
+            const data = {price,description,title,images,category};
             await axios.put('/api/products',{...data,_id})
         }
         else{
             //Create Product
-        const data = {price,description,title,images};
+        const data = {price,description,title,images,category};
         await axios.post('/api/products',data);
         }
         setGoBack(true);
@@ -69,8 +72,11 @@ export default function ProductForm({
         <label>Product Name</label>
            <input value={title} onChange={e => setTitle(e.target.value)} type="text" placeholder="product name"/>
         <label>Categories</label>
-           <select>
+           <select onChange={e => setCategory(e.target.value)} value={category}>
             <option value="">Set Category</option>
+            {categories && categories.map((c) => (
+              <option key={c._id} value={c._id}>{c.name}</option>
+            ))}
            </select>
            <label >Photos</label>
            <div className="flex gap-3">
