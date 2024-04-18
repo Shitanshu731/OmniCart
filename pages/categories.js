@@ -69,6 +69,13 @@ function Categories({ swal }) {
       return properties;
     })
   }
+  function removeProperty(indexToRemove){
+      setProperties(prev => {
+        return [...prev].filter((p,pIndex) => {
+          return pIndex !== indexToRemove;
+        })
+      })
+  }
   return (
     <Layout>
       <h1>Categories</h1>
@@ -104,6 +111,7 @@ function Categories({ swal }) {
             <div className="flex gap-1" key={property.values}>
               <input type="text" onChange={(e) => handlePropertyNameChange(index,property,e.target.value)} value={property.name} placeholder="property name (example : color) "/>
               <input type="text" onChange={(e) => handlePropertyValuesChange(index,property,e.target.value)} value={property.values} placeholder="values, comma seperated"/>
+              <button type="button" onClick={() => removeProperty(index)} className="btn-default">Remove</button>
             </div>
            ))}
            </div>
