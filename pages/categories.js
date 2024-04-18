@@ -55,6 +55,13 @@ function Categories({ swal }) {
         return [...prev, {name : '',values : ''}];
       });
   }
+  function handlePropertyNameChamge(index, property, newName){
+    setProperties(prev => {
+      const properties = [...prev];
+      properties[index].name = newName;
+      return properties;
+    })
+  }
   return (
     <Layout>
       <h1>Categories</h1>
@@ -86,10 +93,10 @@ function Categories({ swal }) {
         <div>
         <label>Properties</label>
            <button className="btn-default" type="button" onClick={addProperty}>Add new property</button>
-           {properties?.length > 0 && properties.map(property => (
-            <div className="flex gap-1" key={property.value}>
-              <input type="text" placeholder="property name (example : color) "/>
-              <input type="text" placeholder="values, comma seperated"/>
+           {properties?.length > 0 && properties.map((property, index) => (
+            <div className="flex gap-1" key={property.values}>
+              <input type="text" onChange={(e) => handlePropertyNameChamge(index,property,e.target.value)} value={property.namea} placeholder="property name (example : color) "/>
+              <input type="text" value={property.values} placeholder="values, comma seperated"/>
             </div>
            ))}
            </div>
