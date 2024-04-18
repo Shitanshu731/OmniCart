@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function ProductForm({
     _id,
@@ -15,6 +15,12 @@ export default function ProductForm({
     const [images,setImages]  = useState(existingimage || []);
     const [description,setDescription]  = useState(existingDescription || '');
     const [goBack,setGoBack]  = useState(false);
+    useEffect(() => {
+      async function getCategories(){
+        await axios.get("/api/categories").then(res => console.log(res.data));
+      }
+      getCategories();
+    },[])
     async function createProduct(e){
         e.preventDefault();
         if(_id) {
