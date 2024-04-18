@@ -40,7 +40,11 @@ function Categories({ swal }) {
   }
   async function saveCategory(e) {
     e.preventDefault();
-    const data = { name, parentCategory };
+    const data = { name, parentCategory, 
+      properties : properties.map(p => ({
+        name : p.name,
+        values : p.values.split(','),
+      })) };
     if (editedCategory) {
       await axios.put("/api/categories", { ...data, _id: editedCategory._id });
       setEditedCategory(null);
@@ -48,6 +52,8 @@ function Categories({ swal }) {
       await axios.post("/api/categories", data);
     }
     setName("");
+    setProperties([]);
+    setParentCategory('');
     getCategories();
   }
   function addProperty(){
