@@ -77,9 +77,14 @@ function Categories({ swal }) {
               </option>
             ))}
         </select>
+        <div>
+        <label>Properties</label>
+           <button className="btn-default" type="button">Add new property</button>
+           </div>
         <button type="submit" className="btn-primary py-1">
           Save
         </button>
+        
       </form>
 
       <table className="basic">
