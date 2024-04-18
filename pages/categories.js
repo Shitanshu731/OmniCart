@@ -55,10 +55,17 @@ function Categories({ swal }) {
         return [...prev, {name : '',values : ''}];
       });
   }
-  function handlePropertyNameChamge(index, property, newName){
+  function handlePropertyNameChange(index, property, newName){
     setProperties(prev => {
       const properties = [...prev];
       properties[index].name = newName;
+      return properties;
+    })
+  }
+  function handlePropertyValuesChange(index, property, newValues){
+    setProperties(prev => {
+      const properties = [...prev];
+      properties[index].values = newValues;
       return properties;
     })
   }
@@ -95,8 +102,8 @@ function Categories({ swal }) {
            <button className="btn-default" type="button" onClick={addProperty}>Add new property</button>
            {properties?.length > 0 && properties.map((property, index) => (
             <div className="flex gap-1" key={property.values}>
-              <input type="text" onChange={(e) => handlePropertyNameChamge(index,property,e.target.value)} value={property.namea} placeholder="property name (example : color) "/>
-              <input type="text" value={property.values} placeholder="values, comma seperated"/>
+              <input type="text" onChange={(e) => handlePropertyNameChange(index,property,e.target.value)} value={property.name} placeholder="property name (example : color) "/>
+              <input type="text" onChange={(e) => handlePropertyValuesChange(index,property,e.target.value)} value={property.values} placeholder="values, comma seperated"/>
             </div>
            ))}
            </div>
