@@ -19,6 +19,7 @@ function Categories({ swal }) {
     setEditedCategory(category);
     setName(category.name);
     setParentCategory(category.parent?._id);
+    setProperties(category.properties);
   }
   function deleteCategory(category) {
     swal
@@ -121,12 +122,13 @@ function Categories({ swal }) {
             </div>
            ))}
            </div>
+           {editedCategory &&  ( <button type="button" className="btn-primary py-1" onClick={() => setEditedCategory(null)}>Cancel</button> )}
         <button type="submit" className="btn-primary py-1">
           Save
         </button>
         
       </form>
-
+      {!editedCategory && (
       <table className="basic">
         <thead>
           <tr>
@@ -161,6 +163,7 @@ function Categories({ swal }) {
             ))}
         </tbody>
       </table>
+    )}
     </Layout>
   );
 }
