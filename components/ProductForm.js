@@ -9,9 +9,10 @@ export default function ProductForm({
     price : existingPrice,
     images : existingimage,
     category : existingCategory,
+    properties : assignedProperties
 }) {
     const router = useRouter();
-    const[productProperties, setproductProperties] = useState({});
+    const[productProperties, setproductProperties] = useState(assignedProperties || {});
     const [title,setTitle]  = useState(existingTitle || '');
     const [price,setPrice]  = useState(existingPrice || '');
     const [images,setImages]  = useState(existingimage || []);
@@ -27,14 +28,13 @@ export default function ProductForm({
     },[])
     async function createProduct(e){
         e.preventDefault();
+        const data = {price,description,title,images,category,properties : productProperties};
         if(_id) {
             //Update Product
-            const data = {price,description,title,images,category};
             await axios.put('/api/products',{...data,_id})
         }
         else{
             //Create Product
-        const data = {price,description,title,images,category};
         await axios.post('/api/products',data);
         }
         setGoBack(true);

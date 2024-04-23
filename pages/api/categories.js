@@ -1,9 +1,15 @@
 import { mongooseConnect } from "@/lib/mongoose";
 import {Category} from "@/models/category";
+import { getAuth } from "@clerk/nextjs/server";
+
+import authHandler from "./auth";
+
+
 
 export default async function handle(req,res){
     const {method} = req;
     await mongooseConnect();
+    await authHandler(req, res);
     if(method === "GET"){
         const allcategories = await Category.find().populate('parent');
         res.json(allcategories);

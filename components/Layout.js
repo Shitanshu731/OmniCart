@@ -1,7 +1,15 @@
 import Nav from "@/components/Nav"
-import { ClerkLoaded, ClerkLoading, SignInButton, SignOutButton,  SignedIn, SignedOut  } from "@clerk/nextjs"
+import { ClerkLoaded, ClerkLoading, SignInButton, SignOutButton,  SignedIn, SignedOut, useAuth, useUser  } from "@clerk/nextjs"
+import toast from "react-hot-toast";
 
 export default function Layout({children}) {
+  const adminEmail = ['shitanshu.731@gmail.com']
+  const { isLoaded, userId, sessionId, getToken } = useAuth();
+  const { isSignedIn, user } = useUser();
+  if (!adminEmail.includes(user?.primaryEmailAddress?.emailAddress)) {
+    toast.error("Only admins can access");
+    return null; // or any appropriate fallback UI
+  }
   return (
     <div>
     <ClerkLoading>
