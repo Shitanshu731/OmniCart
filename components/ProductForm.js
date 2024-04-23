@@ -11,6 +11,7 @@ export default function ProductForm({
     category : existingCategory,
 }) {
     const router = useRouter();
+    const[productProperties, setproductProperties] = useState({});
     const [title,setTitle]  = useState(existingTitle || '');
     const [price,setPrice]  = useState(existingPrice || '');
     const [images,setImages]  = useState(existingimage || []);
@@ -75,6 +76,13 @@ if(categories.length > 0 && category){
     catInfo = parentCat;
   }
 }
+function setProductProp(propName, value){
+  setproductProperties(prev => {
+    const newProductProps = {...prev};
+    newProductProps[propName] = value;
+    return newProductProps;
+  })
+}
     
     
     return (
@@ -90,7 +98,14 @@ if(categories.length > 0 && category){
            </select>
            {
             propertiesToFill.length > 0 && propertiesToFill.map(p => (
-              <div className="flex gap-1" key={p.name}>{p.name}</div>
+              <div key={p.name} className="flex gap-1">
+              <div>{p.name}</div>
+              <select value={productProperties[p.name]} onChange={ev => setProductProp(p,name,ev.target.value)}>
+                  {p.values.map(v => (
+                    <option key={v} value ={v}>{v}</option>
+                  ))}
+              </select>
+              </div>
             ))
            }
            <label >Photos</label>
