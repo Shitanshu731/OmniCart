@@ -66,9 +66,14 @@ export default function ProductForm({
 };
 const propertiesToFill = [];
 if(categories.length > 0 && category){
-  const selCatInfo = categories.find(({_id}) => _id === category);
-  console.log({selCatInfo});
-  propertiesToFill.push(...selCatInfo.properties);
+  let catInfo = categories.find(({_id}) => _id === category);
+
+  propertiesToFill.push(...catInfo.properties);
+  while(catInfo?.parent?._id){
+    const parentCat = categories.find(({_id}) => _id === catInfo?.parent?._id);
+    propertiesToFill.push(...parentCat.properties);
+    catInfo = parentCat;
+  }
 }
     
     
@@ -85,7 +90,7 @@ if(categories.length > 0 && category){
            </select>
            {
             propertiesToFill.length > 0 && propertiesToFill.map(p => (
-              <div key={p.name}>{p.name}</div>
+              <div className="flex gap-1" key={p.name}>{p.name}</div>
             ))
            }
            <label >Photos</label>
