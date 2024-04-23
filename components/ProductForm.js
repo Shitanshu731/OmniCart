@@ -64,7 +64,12 @@ export default function ProductForm({
     console.error('Error uploading image:', error);
   }
 };
-
+const propertiesToFill = [];
+if(categories.length > 0 && category){
+  const selCatInfo = categories.find(({_id}) => _id === category);
+  console.log({selCatInfo});
+  propertiesToFill.push(...selCatInfo.properties);
+}
     
     
     return (
@@ -78,6 +83,11 @@ export default function ProductForm({
               <option key={c._id} value={c._id}>{c.name}</option>
             ))}
            </select>
+           {
+            propertiesToFill.length > 0 && propertiesToFill.map(p => (
+              <div key={p.name}>{p.name}</div>
+            ))
+           }
            <label >Photos</label>
            <div className="flex gap-3">
            {!!images?.length > 0 && images.map((imageLink) => (
