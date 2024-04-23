@@ -123,7 +123,12 @@ function Categories({ swal }) {
             </div>
            ))}
            </div>
-           {editedCategory &&  ( <button type="button" className="btn-primary py-1" onClick={() => setEditedCategory(null)}>Cancel</button> )}
+           {editedCategory &&  ( <button type="button" className="btn-default py-1 mr-1" onClick={() => {
+            setParentCategory('');
+            setName('');
+            setProperties([]);
+            setEditedCategory(null)
+          }}>Cancel</button> )}
         <button type="submit" className="btn-primary py-1">
           Save
         </button>
