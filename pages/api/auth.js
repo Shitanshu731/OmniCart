@@ -10,7 +10,7 @@
 //   }
   
 // }
-import { getAuth, clerkClient } from "@clerk/nextjs/server";
+import { getAuth } from "@clerk/nextjs/server";
 
  
 export default async function authHandler(
