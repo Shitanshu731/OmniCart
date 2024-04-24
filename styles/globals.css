@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-img{
+/* img{
     max-height: 100%;
 }
 input, textarea, select{
@@ -43,4 +43,4 @@ table.basic a{
 }
 .btn-default{
     @apply bg-white text-gray-800 px-4 py-1 rounded-sm border border-gray-200 shadow-sm;
-}
+} */
