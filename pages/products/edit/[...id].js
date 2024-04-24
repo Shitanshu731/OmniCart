@@ -11,7 +11,7 @@ export default function EditProductPage(){
     useEffect(() => {
         if(!id) return
         axios.get('/api/products?id='+id).then(res => setProductDetails(res.data));
-    },[])
+    },[id])
     return (
         <Layout>
         <h1 className="text-blue-900 mb-2 text-xl">Edit Product</h1>
