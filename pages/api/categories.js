@@ -2,7 +2,7 @@ import { mongooseConnect } from "@/lib/mongoose";
 import {Category} from "@/models/category";
 import { getAuth } from "@clerk/nextjs/server";
 
-import authHandler from "./auth";
+// import authHandler from "./auth";
 
 
 
