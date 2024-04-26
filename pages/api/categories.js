@@ -9,7 +9,7 @@ import authHandler from "./auth";
 export default async function handle(req,res){
     const {method} = req;
     await mongooseConnect();
-    await authHandler(req, res);
+    // await authHandler(req, res);
     if(method === "GET"){
         const allcategories = await Category.find().populate('parent');
         res.json(allcategories);
