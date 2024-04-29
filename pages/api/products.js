@@ -1,11 +1,9 @@
 import { mongooseConnect } from "@/lib/mongoose";
-// import authHandler from "./auth";
 import { Product } from "@/models/Product";
 
 export default async function handle(req,res){
     const {method} = req;
     await mongooseConnect();
-    // await authHandler(req, res);
     if(method === 'POST'){
         const {title, description, price,images,category,properties} = req.body;
         const productDoc = await Product.create({
