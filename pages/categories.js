@@ -13,7 +13,7 @@ function Categories({ swal }) {
     getCategories();
   }, []);
   function getCategories() {
-    axios.get("/api/categories").then((res) => setCategories(res.data));
+    axios.get("http://localhost:3000/api/categories").then((res) => setCategories(res.data));
   }
   function editCategory(category) {
     setEditedCategory(category);
@@ -34,7 +34,7 @@ function Categories({ swal }) {
       .then(async result => {
         if(result.isConfirmed){
             const {_id} = category;
-            await axios.delete('/api/categories?_id='+_id);
+            await axios.delete('http://localhost:3000/api/categories?_id='+_id);
             getCategories();
         }
         
@@ -48,10 +48,10 @@ function Categories({ swal }) {
         values : p.values.split(','),
       })) };
     if (editedCategory) {
-      await axios.put("/api/categories", { ...data, _id: editedCategory._id });
+      await axios.put("http://localhost:3000/api/categories", { ...data, _id: editedCategory._id });
       setEditedCategory(null);
     } else {
-      await axios.post("/api/categories", data);
+      await axios.post("http://localhost:3000/api/categories", data);
     }
     setName("");
     setProperties([]);

@@ -20,7 +20,7 @@ export default function DeleteProduct(){
     router.push("/products");
   }
   async function deleteProduct(){
-    await axios.delete('/api/products?id='+id);
+    await axios.delete('http://localhost:3000/api/products?id='+id);
     goBack();
   }
   return (
