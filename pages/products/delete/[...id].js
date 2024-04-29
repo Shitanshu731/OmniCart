@@ -21,6 +21,7 @@ export default function DeleteProduct(){
   }
   async function deleteProduct(){
     await axios.delete('http://localhost:3000/api/products?id='+id);
+    
     goBack();
   }
   return (
